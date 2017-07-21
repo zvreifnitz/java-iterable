@@ -1,43 +1,25 @@
-/*
- * (C) Copyright 2017 zvreifnitz
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
 package com.github.zvreifnitz.iterable;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Iterator;
-import java.util.List;
 
-class ConcatingIterableTest {
+class FileLinesIterableTest {
 
     private final static int Max = 5;
-    private ConcatingIterable<Integer> testedIterable;
+    private TransformingIterable<Integer, String> testedIterable;
 
     @BeforeEach
-    void setUp() {
-        final List<List<Integer>> allIterables = new ArrayList<>();
-        for (int i = 1; i <= Max; i++) {
-            allIterables.add(Collections.singletonList(i));
-        }
-        this.testedIterable = new ConcatingIterable<>(allIterables);
+    void setUp() throws FileNotFoundException {
+        final ClassLoader classLoader = getClass().getClassLoader();
+        final String path = classLoader.getResource("lines1to5.txt").getFile();
+        final File file = new File(path);
+        final Iterable<String> fileLinesIterable = new FileLinesIterable(file);
+        this.testedIterable = new TransformingIterable<>(fileLinesIterable, Integer::parseInt);
     }
 
     @AfterEach
@@ -71,5 +53,4 @@ class ConcatingIterableTest {
             assert result;
         }
     }
-
 }

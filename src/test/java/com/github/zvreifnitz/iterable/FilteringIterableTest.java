@@ -45,7 +45,7 @@ class FilteringIterableTest {
 
     @Test
     void iterator() {
-        final FilteringIterable<Integer> iterable = this.testedIterable;
+        final Iterable<Integer> iterable = this.testedIterable;
         final boolean result = (iterable == iterable.iterator());
         assert result;
     }
