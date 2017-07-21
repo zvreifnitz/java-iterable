@@ -49,6 +49,7 @@ public final class FileLinesIterable extends AbstractIterable<String> implements
             final String line = this.reader.readLine();
             if (line == null) {
                 this.close();
+                return;
             }
             this.setNext(line);
         } catch (Exception e) {
