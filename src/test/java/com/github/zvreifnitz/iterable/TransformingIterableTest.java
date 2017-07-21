@@ -15,7 +15,7 @@
  *
  */
 
-package com.github.zvreifnitz;
+package com.github.zvreifnitz.iterable;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-class FilteringIterableTest {
+class TransformingIterableTest {
 
     private final static int Max = 5;
-    private FilteringIterable<Integer> testedIterable;
+    private TransformingIterable<Integer, Integer> testedIterable;
 
     @BeforeEach
     void setUp() {
@@ -36,7 +36,7 @@ class FilteringIterableTest {
         for (int i = 1; i <= Max; i++) {
             allIterables.add(i);
         }
-        this.testedIterable = new FilteringIterable<>(allIterables, i -> i == Max);
+        this.testedIterable = new TransformingIterable<>(allIterables, i -> 2 * i);
     }
 
     @AfterEach
@@ -45,7 +45,7 @@ class FilteringIterableTest {
 
     @Test
     void iterator() {
-        final FilteringIterable<Integer> iterable = this.testedIterable;
+        final TransformingIterable<Integer, Integer> iterable = this.testedIterable;
         final boolean result = (iterable == iterable.iterator());
         assert result;
     }
@@ -53,9 +53,11 @@ class FilteringIterableTest {
     @Test
     void hasNext() {
         final Iterator<Integer> iterator = this.testedIterable.iterator();
-        final boolean result = iterator.hasNext();
-        assert result;
-        iterator.next();
+        for (int i = 1; i <= Max; i++) {
+            final boolean result = iterator.hasNext();
+            assert result;
+            iterator.next();
+        }
         final boolean endOk = (!iterator.hasNext());
         assert endOk;
     }
@@ -63,8 +65,9 @@ class FilteringIterableTest {
     @Test
     void next() {
         final Iterator<Integer> iterator = this.testedIterable.iterator();
-        final boolean result = (Max == iterator.next());
-        assert result;
+        for (int i = 1; i <= Max; i++) {
+            final boolean result = ((2 * i) == iterator.next());
+            assert result;
+        }
     }
-
 }

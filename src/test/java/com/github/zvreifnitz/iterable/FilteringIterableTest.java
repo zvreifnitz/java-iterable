@@ -15,7 +15,7 @@
  *
  */
 
-package com.github.zvreifnitz;
+package com.github.zvreifnitz.iterable;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-class TransformingIterableTest {
+class FilteringIterableTest {
 
     private final static int Max = 5;
-    private TransformingIterable<Integer, Integer> testedIterable;
+    private FilteringIterable<Integer> testedIterable;
 
     @BeforeEach
     void setUp() {
@@ -36,7 +36,7 @@ class TransformingIterableTest {
         for (int i = 1; i <= Max; i++) {
             allIterables.add(i);
         }
-        this.testedIterable = new TransformingIterable<>(allIterables, i -> 2 * i);
+        this.testedIterable = new FilteringIterable<>(allIterables, i -> i == Max);
     }
 
     @AfterEach
@@ -45,7 +45,7 @@ class TransformingIterableTest {
 
     @Test
     void iterator() {
-        final TransformingIterable<Integer, Integer> iterable = this.testedIterable;
+        final FilteringIterable<Integer> iterable = this.testedIterable;
         final boolean result = (iterable == iterable.iterator());
         assert result;
     }
@@ -53,11 +53,9 @@ class TransformingIterableTest {
     @Test
     void hasNext() {
         final Iterator<Integer> iterator = this.testedIterable.iterator();
-        for (int i = 1; i <= Max; i++) {
-            final boolean result = iterator.hasNext();
-            assert result;
-            iterator.next();
-        }
+        final boolean result = iterator.hasNext();
+        assert result;
+        iterator.next();
         final boolean endOk = (!iterator.hasNext());
         assert endOk;
     }
@@ -65,9 +63,8 @@ class TransformingIterableTest {
     @Test
     void next() {
         final Iterator<Integer> iterator = this.testedIterable.iterator();
-        for (int i = 1; i <= Max; i++) {
-            final boolean result = ((2 * i) == iterator.next());
-            assert result;
-        }
+        final boolean result = (Max == iterator.next());
+        assert result;
     }
+
 }

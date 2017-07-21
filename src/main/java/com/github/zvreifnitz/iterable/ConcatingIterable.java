@@ -15,9 +15,9 @@
  *
  */
 
-package com.github.zvreifnitz;
+package com.github.zvreifnitz.iterable;
 
-import com.github.zvreifnitz.base.AbstractIterable;
+import com.github.zvreifnitz.iterable.base.AbstractIterable;
 
 import java.util.Iterator;
 

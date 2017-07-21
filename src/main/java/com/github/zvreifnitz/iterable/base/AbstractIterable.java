@@ -15,7 +15,7 @@
  *
  */
 
-package com.github.zvreifnitz.base;
+package com.github.zvreifnitz.iterable.base;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

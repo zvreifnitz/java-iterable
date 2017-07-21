@@ -15,26 +15,29 @@
  *
  */
 
-package com.github.zvreifnitz;
+package com.github.zvreifnitz.iterable;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
-class ArrayIterableTest {
+class ConcatingIterableTest {
 
     private final static int Max = 5;
-    private ArrayIterable<Integer> testedIterable;
+    private ConcatingIterable<Integer> testedIterable;
 
     @BeforeEach
     void setUp() {
-        final Integer[] array = new Integer[Max];
+        final List<List<Integer>> allIterables = new ArrayList<>();
         for (int i = 1; i <= Max; i++) {
-            array[i - 1] = i;
+            allIterables.add(Collections.singletonList(i));
         }
-        this.testedIterable = new ArrayIterable<>(array);
+        this.testedIterable = new ConcatingIterable<>(allIterables);
     }
 
     @AfterEach
@@ -43,7 +46,7 @@ class ArrayIterableTest {
 
     @Test
     void iterator() {
-        final ArrayIterable<Integer> iterable = this.testedIterable;
+        final ConcatingIterable<Integer> iterable = this.testedIterable;
         final boolean result = (iterable == iterable.iterator());
         assert result;
     }
@@ -68,4 +71,5 @@ class ArrayIterableTest {
             assert result;
         }
     }
+
 }
